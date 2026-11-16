@@ -85,7 +85,8 @@ Run the demo with `python patterns_demo.py`.
 
 ### Prerequisites
 
-- Python 3.9+
+- Modern Web Browser (Chrome, Firefox, Safari, Edge)
+- *(Optional)* Node.js 16+ or Python 3.8+
 
 ### Installation and Run
 
@@ -94,11 +95,16 @@ Run the demo with `python patterns_demo.py`.
 git clone https://github.com/<your-username>/<your-repo>.git
 cd <your-repo>
 
-# 2. Install Flask
-pip install flask
+# 2. Start the app (choose Node.js or Python)
+# Using Node.js:
+node server.js
 
-# 3. Start the app
-python app.py
+# OR using Python:
+python -m http.server 3000
+
+# 3. Open in your browser
+# Visit http://localhost:3000
+# (Or simply double-click and open index.html directly)
 ```
 
 ## How to Use
