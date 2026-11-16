@@ -4,10 +4,14 @@ An Object-Oriented Design (OOD) project: a minimal, responsive online food order
 
 Customers can browse local partner restaurants, filter dishes by category, add items to a dynamic cart, apply coupon codes, pay using multiple payment methods (including wallet deduction), and track their order through a real-time lifecycle stepper. Delivery partners and admins have dedicated operational dashboards to accept deliveries, advance orders, and view revenue metrics.
 
+An interactive **UML Class Details** page is directly accessible via a floating action button on the home page, presenting the high-resolution architecture diagram and all 15 domain classes in structured UML tables.
+
 ---
 
 ## Features
 
+- **Floating UML Details Navigation**: Seamless floating action button on the right edge of the home page leading to `/uml`.
+- **Interactive UML Architecture Viewer**: Full container width high-resolution UML diagram viewer (with one-click full-screen inspection) and 15 structured class specification cards arranged in a responsive 3-column grid.
 - **Multi-Restaurant & Catalog Browsing**: Explore partner kitchens with real-time open/closed statuses, location tags, and dish filters.
 - **Cart & Subtotal Engine**: Real-time quantity steppers (`+` / `−`), automatic subtotal calculation, and delivery fee calculation in Indian Rupees (₹).
 - **Coupon Validation**: Active promo support (e.g. `FEAST20` for 20% off) calculating dynamic discounts.
@@ -25,25 +29,30 @@ Customers can browse local partner restaurants, filter dishes by category, add i
 
 ```
 .
-├── index.html          # Semantic HTML5 layout, modals, and templates
-├── styles.css          # Design system & responsive styles (warm palette)
-├── app.js              # Core OOP domain classes & UI controllers (the UML implemented)
-├── server.js           # Lightweight local static server (Node.js built-in)
-├── uml.png             # UML class diagram
-└── README.md           # Project documentation
+├── index.html              # Semantic HTML5 layout, modals & floating UML button
+├── uml.html                # Dedicated UML Class Diagram and 15-class details page (/uml)
+├── styles.css              # Design system, responsive grid & card styles
+├── app.js                  # Frontend OOP domain classes & UI controllers
+├── server.js               # Lightweight local server (Node.js) with /uml routing
+├── app.py                  # Python / Flask server
+├── food_ordering.py        # Python OOP implementation of all 15 UML domain classes
+├── uml.png                 # UML class diagram source image
+├── static/
+│   └── uml_diagram.png     # Static diagram image served on /uml
+└── README.md               # Project documentation
 ```
 
 ---
 
 ## UML Class Diagram
 
-![UML Class Diagram](uml.png)
+![UML Class Diagram](static/uml_diagram.png)
 
 ### Classes (15)
 
 | Group | Classes | Description |
 |---|---|---|
-| **Users** | `User` (Base), `Customer`, `Admin`, `DeliveryPartner` | User hierarchy with role-specific methods, wallets, and shift states |
+| **Users** | `User` (Abstract Base), `Customer`, `Admin`, `DeliveryPartner` | User hierarchy with role-specific methods, wallets, and shift states |
 | **Restaurant** | `Restaurant`, `FoodItem` | Kitchen partners and their menus with price & availability management |
 | **Shopping** | `Cart`, `CartItem` | Shopping cart engine calculating item quantities and order subtotals |
 | **Orders** | `Order`, `OrderItem`, `Payment`, `Coupon`, `Address` | Complete lifecycle management, address resolution, payment and discounts |
@@ -80,7 +89,7 @@ Customers can browse local partner restaurants, filter dishes by category, add i
 ### Prerequisites
 
 - Modern Web Browser (Chrome, Firefox, Safari, Edge)
-- *(Optional)* Node.js 16+ or Python 3.8+ for running a local server
+- *(Optional)* Node.js 16+ or Python 3.8+ (with Flask) for running a local web server
 
 ### Installation and Run
 
@@ -91,35 +100,39 @@ cd <your-repo>
 
 # 2. Start the local server (choose either Node.js or Python)
 
-# Option A — Using Node.js:
+# Option A — Using Node.js (Recommended):
 node server.js
+# Serves at: http://localhost:3000/
+# UML page:  http://localhost:3000/uml
 
-# Option B — Using Python:
-python -m http.server 3000
+# Option B — Using Python / Flask:
+python app.py
+# Serves at: http://localhost:5000/
+# UML page:  http://localhost:5000/uml
 
-# 3. Open in your browser
-# Visit http://localhost:3000
+# 3. Direct Browser Access:
+# You can also double-click and open index.html directly in any web browser!
 ```
-
-> **Note:** Because this project is self-contained with pure vanilla web standards, you can also open `index.html` directly in any web browser without installing anything!
 
 ---
 
 ## How to Use
 
-1. **Browse Menu**: Filter dishes by category (*Artisan Pizza, Healthy Bowls, Asian Bowls, Artisan Bakery*) or click any Partner Kitchen card to filter by restaurant.
-2. **Add to Cart**: Click `+ Add` on dishes to populate your cart and adjust quantities in real time.
-3. **Cart & Promo Code**: Open the cart drawer, enter coupon `FEAST20`, and click **Apply** for a 20% discount.
-4. **Checkout & Payment**: Select a payment method (**Customer Wallet**, **Instant UPI**, **Card**, or **Cash on Delivery**) and place your order.
-5. **Live Order Tracking**: Watch the order advance through the 5 status steps (`PLACED` ➔ `CONFIRMED` ➔ `PREPARING` ➔ `OUT_FOR_DELIVERY` ➔ `DELIVERED`). Click **Advance Order Status** to simulate the kitchen and rider progressing the delivery.
-6. **Role Dashboards**: Click the **Portals** buttons in the top banner (`Customer`, `Delivery Partner`, `Admin`) to inspect live shift metrics, add wallet funds, accept delivery orders, or onboard new kitchens.
+1. **View UML Architecture**: Click the floating orange **"View UML Details"** button on the right edge of the home page to open the `/uml` view containing the full diagram and 15 class cards with detailed operations.
+2. **Browse Menu**: Filter dishes by category (*Artisan Pizza, Healthy Bowls, Asian Bowls, Artisan Bakery*) or click any Partner Kitchen card to filter by restaurant.
+3. **Add to Cart**: Click `+ Add` on dishes to populate your cart and adjust quantities in real time.
+4. **Cart & Promo Code**: Open the cart drawer, enter coupon `FEAST20`, and click **Apply** for a 20% discount.
+5. **Checkout & Payment**: Select a payment method (**Customer Wallet**, **Instant UPI**, **Card**, or **Cash on Delivery**) and place your order.
+6. **Live Order Tracking**: Watch the order advance through the 5 status steps (`PLACED` ➔ `CONFIRMED` ➔ `PREPARING` ➔ `OUT_FOR_DELIVERY` ➔ `DELIVERED`). Click **Advance Order Status** to simulate the kitchen and rider progressing the delivery.
+7. **Role Dashboards**: Click the **Portals** buttons in the top banner (`Customer`, `Delivery Partner`, `Admin`) to inspect live shift metrics, add wallet funds, accept delivery orders, or onboard new kitchens.
 
 ---
 
 ## Tech Stack
 
 - **Frontend**: Semantic HTML5, Vanilla JavaScript (ES6+ Classes), Modern CSS3 (CSS Custom Properties & Flexbox/Grid)
-- **Design System**: Warm organic palette (Terracotta, Olive Basil, Oatmeal Linen) avoiding purple/blue AI gradients
+- **Backend**: Node.js HTTP Server (`server.js`) & Python Flask Server (`app.py`)
+- **Domain Logic**: StarUML OOD Architecture (`food_ordering.py` & `app.js`)
 - **Currency**: Indian Rupee (₹)
 - **Modeling Tool**: StarUML (OOD Class Diagram)
 
@@ -127,4 +140,4 @@ python -m http.server 3000
 
 ## Author
 
-**[HARIPRIYA]** - [BGS / CSD]
+**S HARIPRIYA** | USN: IMP24CG039 | CSD

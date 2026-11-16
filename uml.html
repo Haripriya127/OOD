@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UML Class Diagram — Online Food Ordering System</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Inline styles for UML Details Page */
+    .uml-page-container {
+      max-width: 1200px;
+      margin: 28px auto 50px;
+      padding: 0 24px;
+    }
+
+    .back-menu-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #d9480f;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      margin-bottom: 14px;
+      transition: color 0.15s ease, transform 0.15s ease;
+    }
+    .back-menu-link:hover {
+      color: #bf3f0d;
+      transform: translateX(-3px);
+    }
+
+    .uml-main-title {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #1F1C19;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    /* Diagram Image Section */
+    .uml-diagram-wrapper {
+      background: #FFFFFF;
+      border: 1px solid #E6DFD5;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 4px 14px rgba(35, 28, 24, 0.06);
+      margin-bottom: 36px;
+      transition: box-shadow 0.2s ease;
+    }
+    .uml-diagram-wrapper:hover {
+      box-shadow: 0 8px 24px rgba(35, 28, 24, 0.10);
+    }
+    .uml-diagram-wrapper a {
+      display: block;
+      text-decoration: none;
+      cursor: zoom-in;
+    }
+    .uml-diagram-img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid #EFEBE4;
+    }
+    .uml-img-caption {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #8A8177;
+      text-align: right;
+    }
+
+    /* Class Details Section */
+    .uml-section-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #1F1C19;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Responsive Grid: 3 columns, 2 under 900px, 1 under 600px */
+    .uml-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+    @media (max-width: 900px) {
+      .uml-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 600px) {
+      .uml-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Card Style: white bg, 1px border, rounded corners, light shadow, orange header strip, equal height */
+    .uml-card {
+      background: #FFFFFF;
+      border: 1px solid #E6DFD5;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(35, 28, 24, 0.05);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 100%;
+      box-sizing: border-box;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .uml-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(35, 28, 24, 0.08);
+    }
+
+    .uml-header-strip {
+      height: 4px;
+      background-color: #d9480f;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    /* UML-Style Class Table */
+    .uml-table {
+      border: 1px solid #E6DFD5;
+      border-radius: 6px;
+      margin: 14px 14px 12px;
+      background: #FFFFFF;
+      overflow: hidden;
+    }
+
+    .uml-table-header {
+      padding: 8px 10px;
+      text-align: center;
+      background: #FAF8F5;
+      border-bottom: 1px solid #E6DFD5;
+    }
+    .uml-stereotype {
+      font-size: 0.72rem;
+      color: #8A8177;
+      font-style: italic;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .uml-class-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #1F1C19;
+    }
+
+    .uml-section {
+      padding: 8px 12px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      color: #332E29;
+      background: #FFFFFF;
+    }
+    .uml-attributes {
+      border-bottom: 1px solid #E6DFD5;
+    }
+    .uml-none {
+      color: #8A8177;
+      font-style: italic;
+      font-family: inherit;
+    }
+
+    /* Explanation: What it does & How it works */
+    .uml-explanation {
+      padding: 10px 14px 16px;
+      font-size: 0.825rem;
+      line-height: 1.45;
+      color: #59534C;
+      border-top: 1px dashed #E6DFD5;
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .uml-explanation strong {
+      color: #1F1C19;
+    }
+
+    /* Footer */
+    .uml-page-footer {
+      text-align: center;
+      color: #8A8177;
+      font-size: 0.85rem;
+      padding: 32px 16px 40px;
+      border-top: 1px solid #E6DFD5;
+      margin-top: 40px;
+    }
+    .uml-page-footer .author-primary {
+      font-weight: 600;
+      color: #59534C;
+      letter-spacing: 0.5px;
+    }
+    .uml-page-footer .author-secondary {
+      font-size: 0.75rem;
+      color: #A8A095;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top System Bar with Operational Portals & Offer (Same navbar style) -->
+  <aside class="top-banner">
+    <div style="display:flex; align-items:center;">
+      <span class="banner-badge">PROMO</span>
+      <span>Use code <strong>FEAST20</strong> for 20% off • Fresh kitchens delivered to your door</span>
+    </div>
+    <div class="banner-role-pills">
+      <span style="font-size:0.75rem; color:#A8A095;">Portals:</span>
+      <a href="/" class="role-pill-btn active" style="text-decoration:none;">Customer</a>
+      <a href="/" class="role-pill-btn" style="text-decoration:none;">Delivery Partner</a>
+      <a href="/" class="role-pill-btn" style="text-decoration:none;">Admin</a>
+    </div>
+  </aside>
+
+  <!-- Navigation Bar (Same as other pages) -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div style="display:flex; align-items:center; gap:24px;">
+        <a href="/" class="brand-group" id="navBrandLink" style="text-decoration:none;">
+          <div class="brand-icon">S</div>
+          <span class="brand-name">SAVOR</span>
+        </a>
+
+        <!-- Delivery Address -->
+        <div class="address-box" title="Delivery Address">
+          <span>📍</span>
+          <div>
+            <span class="address-label">Delivering to:</span>
+            <span>142 Riverwalk Road, Indiranagar, Bengaluru (560038)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav Actions (Wallet & Back to Menu) -->
+      <div class="nav-actions">
+        <div class="wallet-badge" title="Customer Wallet Balance">
+          <span>👛</span>
+          <span>Wallet: <strong>₹1,500.00</strong></span>
+        </div>
+        <a href="/" class="btn-cart" id="navBackBtn" style="text-decoration:none;">
+          <span>Back to Menu</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="uml-page-container">
+    <!-- Back to Menu link -->
+    <div>
+      <a href="/" class="back-menu-link" id="topBackLink">
+        <span>&larr;</span> Back to Menu
+      </a>
+    </div>
+
+    <!-- Main Heading -->
+    <h1 class="uml-main-title">UML Class Diagram - Online Food Ordering System</h1>
+
+    <!-- 1. UML Diagram Image -->
+    <section class="uml-diagram-wrapper">
+      <a href="/static/uml_diagram.png" id="diagramImgLink" target="_blank" rel="noopener noreferrer" title="Click to view full size diagram in a new tab">
+        <img src="/static/uml_diagram.png" id="diagramImg" alt="UML Class Diagram - Online Food Ordering System" class="uml-diagram-img">
+      </a>
+      <div class="uml-img-caption">
+        <span>🔍 Click image to open in full size (new tab)</span>
+      </div>
+    </section>
+
+    <!-- 2. Class Details Heading -->
+    <h2 class="uml-section-title">Class Details</h2>
+
+    <!-- 3. Responsive Grid of 15 Cards (3 per row) -->
+    <div class="uml-grid">
+
+      <!-- ==================== ROW 1 ==================== -->
+      <!-- Card 1: User -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-stereotype">&laquo;abstract&raquo;</div>
+            <div class="uml-class-name">User</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-userId: int</div>
+            <div>-name: String</div>
+            <div>-email: String</div>
+            <div>-password: String</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div>+login(): boolean</div>
+            <div>+logout(): void</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> Base class for every user of the system.</div>
+          <div><strong>How it works:</strong> Stores the common login details; Customer, Admin and DeliveryPartner inherit from it.</div>
+        </div>
+      </div>
+
+      <!-- Card 2: Customer -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">Customer</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-phone: String</div>
+            <div>-walletBalance: double</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div>+browseRestaurants(): List</div>
+            <div>+placeOrder(): Order</div>
+            <div>+trackOrder(): void</div>
+            <div>+cancelOrder(): void</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> The person who orders food.</div>
+          <div><strong>How it works:</strong> Has one cart and saved addresses; places orders, tracks them and cancels them.</div>
+        </div>
+      </div>
+
+      <!-- Card 3: Admin -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">Admin</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div class="uml-none">(none)</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div>+manageRestaurants(): void</div>
+            <div>+manageUsers(): void</div>
+            <div>+viewReports(): void</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> Manages the whole platform.</div>
+          <div><strong>How it works:</strong> Adds restaurants and users and views reports such as total orders and revenue.</div>
+        </div>
+      </div>
+
+      <!-- ==================== ROW 2 ==================== -->
+      <!-- Card 4: DeliveryPartner -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">DeliveryPartner</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-vehicleNo: String</div>
+            <div>-isAvailable: boolean</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div>+acceptDelivery(): void</div>
+            <div>+updateDeliveryStatus(): void</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> Delivers the order to the customer.</div>
+          <div><strong>How it works:</strong> Accepts an order (becomes busy), updates its status, and becomes available again after delivery.</div>
+        </div>
+      </div>
+
+      <!-- Card 5: Address -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">Address</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-line: String</div>
+            <div>-city: String</div>
+            <div>-pincode: String</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div class="uml-none">(none)</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> Stores a delivery address.</div>
+          <div><strong>How it works:</strong> One customer can save many addresses.</div>
+        </div>
+      </div>
+
+      <!-- Card 6: Restaurant -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">Restaurant</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-restaurantId: int</div>
+            <div>-name: String</div>
+            <div>-location: String</div>
+            <div>-rating: float</div>
+            <div>-isOpen: boolean</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div>+manageMenu(): void</div>
+            <div>+acceptOrder(): void</div>
+            <div>+updateOrderStatus(): void</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> The place that sells food.</div>
+          <div><strong>How it works:</strong> Keeps a menu of food items, confirms incoming orders and moves them to preparing.</div>
+        </div>
+      </div>
+
+      <!-- ==================== ROW 3 ==================== -->
+      <!-- Card 7: FoodItem -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">FoodItem</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-itemId: int</div>
+            <div>-name: String</div>
+            <div>-price: double</div>
+            <div>-category: String</div>
+            <div>-isAvailable: boolean</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div>+updatePrice(): void</div>
+            <div>+setAvailability(): void</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> A dish on the restaurant menu.</div>
+          <div><strong>How it works:</strong> Holds name, price and category; the restaurant can change the price or mark it unavailable.</div>
+        </div>
+      </div>
+
+      <!-- Card 8: Cart -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">Cart</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-cartId: int</div>
+            <div>-totalAmount: double</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div>+addItem(): void</div>
+            <div>+removeItem(): void</div>
+            <div>+clearCart(): void</div>
+            <div>+checkout(): Order</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> The customer's basket before ordering.</div>
+          <div><strong>How it works:</strong> Holds cart items and the running total; checkout() converts it into an Order.</div>
+        </div>
+      </div>
+
+      <!-- Card 9: CartItem -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">CartItem</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-quantity: int</div>
+            <div>-subTotal: double</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div>+calculateSubTotal(): void</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> One food item inside the cart.</div>
+          <div><strong>How it works:</strong> Links a FoodItem with a quantity; subtotal = price x quantity.</div>
+        </div>
+      </div>
+
+      <!-- ==================== ROW 4 ==================== -->
+      <!-- Card 10: Order -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">Order</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-orderId: int</div>
+            <div>-orderDate: DateTime</div>
+            <div>-status: OrderStatus</div>
+            <div>-totalAmount: double</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div>+calculateTotal(): double</div>
+            <div>+updateStatus(): void</div>
+            <div>+cancelOrder(): void</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> The central class of the system.</div>
+          <div><strong>How it works:</strong> Holds items, payment, coupon and delivery partner; its status moves from placed to delivered, and it can be cancelled only before preparation.</div>
+        </div>
+      </div>
+
+      <!-- Card 11: OrderItem -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">OrderItem</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-itemName: String</div>
+            <div>-unitPrice: double</div>
+            <div>-quantity: int</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div class="uml-none">(none)</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> A saved copy of an ordered item.</div>
+          <div><strong>How it works:</strong> Stores the name and price at the time of ordering, so later menu price changes do not affect old orders.</div>
+        </div>
+      </div>
+
+      <!-- Card 12: Payment -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">Payment</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-paymentId: int</div>
+            <div>-method: PaymentMethod</div>
+            <div>-status: String</div>
+            <div>-amount: double</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div>+processPayment(): boolean</div>
+            <div>+refund(): void</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> Records the payment for an order.</div>
+          <div><strong>How it works:</strong> Processes UPI, Card, Wallet or COD (checks wallet balance) and refunds on cancellation.</div>
+        </div>
+      </div>
+
+      <!-- ==================== ROW 5 ==================== -->
+      <!-- Card 13: Coupon -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-class-name">Coupon</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>-code: String</div>
+            <div>-discountPercent: double</div>
+            <div>-expiryDate: Date</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div>+isValid(): boolean</div>
+            <div>+apply(amount: double): double</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> A discount code.</div>
+          <div><strong>How it works:</strong> Checks the expiry date, then reduces the order amount by the discount percentage.</div>
+        </div>
+      </div>
+
+      <!-- Card 14: OrderStatus -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-stereotype">&laquo;enumeration&raquo;</div>
+            <div class="uml-class-name">OrderStatus</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>PLACED</div>
+            <div>CONFIRMED</div>
+            <div>PREPARING</div>
+            <div>OUT_FOR_DELIVERY</div>
+            <div>DELIVERED</div>
+            <div>CANCELLED</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div class="uml-none">(none)</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> Fixed list of order stages.</div>
+          <div><strong>How it works:</strong> An order moves through these values in sequence, or ends as CANCELLED.</div>
+        </div>
+      </div>
+
+      <!-- Card 15: PaymentMethod -->
+      <div class="uml-card">
+        <div class="uml-header-strip"></div>
+        <div class="uml-table">
+          <div class="uml-table-header">
+            <div class="uml-stereotype">&laquo;enumeration&raquo;</div>
+            <div class="uml-class-name">PaymentMethod</div>
+          </div>
+          <div class="uml-section uml-attributes">
+            <div>UPI</div>
+            <div>CARD</div>
+            <div>WALLET</div>
+            <div>COD</div>
+          </div>
+          <div class="uml-section uml-methods">
+            <div class="uml-none">(none)</div>
+          </div>
+        </div>
+        <div class="uml-explanation">
+          <div><strong>What it does:</strong> Fixed list of payment options.</div>
+          <div><strong>How it works:</strong> The customer selects one of these when paying for an order.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 4. Footer below all cards -->
+    <footer class="uml-page-footer">
+      <div class="author-primary">Name: S HARIPRIYA &nbsp;|&nbsp; USN: IMP24CG039 &nbsp;|&nbsp; CSD</div>
+      <div class="author-secondary">Haripriya | CSD</div>
+    </footer>
+  </main>
+
+  <!-- Local file:// protocol fallback -->
+  <script>
+    if (window.location.protocol === 'file:') {
+      var topBack = document.getElementById('topBackLink');
+      var navBack = document.getElementById('navBackBtn');
+      var navBrand = document.getElementById('navBrandLink');
+      var img = document.getElementById('diagramImg');
+      var imgLink = document.getElementById('diagramImgLink');
+
+      if (topBack) topBack.href = 'index.html';
+      if (navBack) navBack.href = 'index.html';
+      if (navBrand) navBrand.href = 'index.html';
+      if (img) img.src = 'static/uml_diagram.png';
+      if (imgLink) imgLink.href = 'static/uml_diagram.png';
+    }
+  </script>
+</body>
+</html>
