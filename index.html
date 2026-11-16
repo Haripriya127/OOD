@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAVOR — Handcrafted Food & Local Kitchens</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top System Bar with Operational Portals & Offer -->
+  <aside class="top-banner">
+    <div style="display:flex; align-items:center;">
+      <span class="banner-badge">PROMO</span>
+      <span>Use code <strong>FEAST20</strong> for 20% off • Fresh kitchens delivered to your door</span>
+    </div>
+    <div class="banner-role-pills">
+      <span style="font-size:0.75rem; color:#A8A095;">Portals:</span>
+      <button class="role-pill-btn active" onclick="showRoleOverview('Customer')">Customer</button>
+      <button class="role-pill-btn" onclick="showRoleOverview('DeliveryPartner')">Delivery Partner</button>
+      <button class="role-pill-btn" onclick="showRoleOverview('Admin')">Admin</button>
+    </div>
+  </aside>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div style="display:flex; align-items:center; gap:24px;">
+        <a href="#" class="brand-group">
+          <div class="brand-icon">S</div>
+          <span class="brand-name">SAVOR</span>
+        </a>
+
+        <!-- Delivery Address -->
+        <div class="address-box" title="Delivery Address">
+          <span>📍</span>
+          <div>
+            <span class="address-label">Delivering to:</span>
+            <span id="navAddress">142 Riverwalk Road, Indiranagar, Bengaluru (560038)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav Actions (Wallet & Cart) -->
+      <div class="nav-actions">
+        <!-- Customer Wallet Balance -->
+        <div class="wallet-badge" title="Customer Wallet Balance">
+          <span>👛</span>
+          <span>Wallet: <strong id="walletDisplay">₹1,500.00</strong></span>
+        </div>
+
+        <!-- Cart Button -->
+        <button class="btn-cart" onclick="openCart()">
+          <span>Cart</span>
+          <span class="cart-counter" id="cartCountBadge">0</span>
+          <span id="cartNavTotal" style="font-size:0.8rem; opacity:0.9;">₹0.00</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero / Discovery Section -->
+    <section class="hero-section">
+      <div class="hero-card">
+        <div class="hero-content">
+          <span class="hero-tag">Curated Artisan Food</span>
+          <h1 class="hero-title">Honest, delicious food from neighborhood kitchens.</h1>
+          <p class="hero-subtitle">Freshly prepared, sustainably packaged, and delivered straight to your table.</p>
+          
+          <div class="hero-search-bar">
+            <input type="text" id="searchInput" placeholder="Search dishes, sourdough pizzas, bowls, ramen...">
+            <button class="hero-search-btn" onclick="renderFoodItems()">Search</button>
+          </div>
+        </div>
+
+        <!-- Coupon Card -->
+        <div class="hero-coupon-banner">
+          <div class="coupon-label">Special Coupon</div>
+          <div class="coupon-code">FEAST20</div>
+          <div class="coupon-desc">20% off on your entire meal today</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Filter Chips -->
+    <nav class="filter-section" id="filterChips" aria-label="Food Categories">
+      <button class="filter-chip active" data-category="All">All Categories</button>
+      <button class="filter-chip" data-category="Artisan Pizza">Artisan Pizza</button>
+      <button class="filter-chip" data-category="Healthy Bowls">Healthy Bowls</button>
+      <button class="filter-chip" data-category="Asian Bowls">Asian Bowls</button>
+      <button class="filter-chip" data-category="Artisan Bakery">Artisan Bakery</button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="content-container">
+      <!-- Restaurants Section -->
+      <section style="margin-bottom: 32px;">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Partner Kitchens</h2>
+            <p class="section-meta">Select a restaurant to filter its dedicated menu</p>
+          </div>
+        </div>
+        <div class="restaurants-strip" id="restaurantsStrip">
+          <!-- Populated by app.js -->
+        </div>
+      </section>
+
+      <!-- Food Catalog Grid -->
+      <section>
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Fresh Menu</h2>
+            <p class="section-meta">Prepared on-demand by certified culinary masters</p>
+          </div>
+        </div>
+        <div class="food-grid" id="foodGrid">
+          <!-- Populated by app.js -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Slide-Over Cart Drawer -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart">
+    <div class="cart-drawer-header">
+      <h3 class="cart-drawer-title">Your Order Cart</h3>
+      <button class="btn-close-cart" onclick="closeCart()" aria-label="Close Cart">&times;</button>
+    </div>
+
+    <!-- Cart items list -->
+    <div class="cart-items-list" id="cartItemsList">
+      <!-- Populated by app.js -->
+    </div>
+
+    <!-- Cart summary & checkout footer -->
+    <div class="cart-drawer-footer">
+      <!-- Coupon apply box -->
+      <div class="coupon-input-group">
+        <input type="text" id="couponInput" placeholder="PROMO CODE (e.g. FEAST20)" value="FEAST20">
+        <button onclick="applyCouponCode()">Apply</button>
+      </div>
+      <div id="couponMsg" class="coupon-status-msg"></div>
+
+      <!-- Price breakdown in Rupees -->
+      <div class="price-summary-row">
+        <span>Subtotal</span>
+        <span id="subtotalDisplay">₹0.00</span>
+      </div>
+      <div class="price-summary-row discount-row" id="discountRow" style="display:none;">
+        <span>Promo Discount</span>
+        <span id="discountDisplay">-₹0.00</span>
+      </div>
+      <div class="price-summary-row">
+        <span>Delivery Fee</span>
+        <span>₹40.00</span>
+      </div>
+      <div class="price-summary-row total-row">
+        <span>Total Payable</span>
+        <span id="totalDisplay">₹0.00</span>
+      </div>
+
+      <button class="btn-checkout" id="btnCheckout" onclick="openCheckoutModal()">Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <!-- Checkout & Live Order Tracker Modal -->
+  <div class="modal-backdrop" id="orderModalBackdrop">
+    <div class="modal-box">
+      <!-- Step 1: Checkout & Payment Selection -->
+      <div id="checkoutStep">
+        <div class="modal-header">
+          <h3 class="modal-title">Checkout & Payment</h3>
+          <button class="btn-close-cart" onclick="closeOrderModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h4 style="font-size:0.95rem; margin-bottom:8px; color:var(--text-secondary);">Order Review</h4>
+          <div id="checkoutOrderItems" style="background:var(--bg-subtle); padding:14px; border-radius:var(--radius-sm); margin-bottom:18px;">
+            <!-- Rendered by app.js -->
+          </div>
+
+          <h4 style="font-size:0.95rem; margin-bottom:8px; color:var(--text-secondary);">Select Payment Method</h4>
+          <div class="payment-methods-grid">
+            <div class="payment-option-card selected" data-method="WALLET" onclick="selectPaymentMethod('WALLET')">
+              <span style="font-size:1.3rem;">👛</span>
+              <div>
+                <div class="payment-option-name">Customer Wallet</div>
+                <div class="payment-option-sub" id="walletOptionSub">Balance: ₹1,500.00</div>
+              </div>
+            </div>
+
+            <div class="payment-option-card" data-method="UPI" onclick="selectPaymentMethod('UPI')">
+              <span style="font-size:1.3rem;">📱</span>
+              <div>
+                <div class="payment-option-name">Instant UPI</div>
+                <div class="payment-option-sub">GPay / PhonePe / Paytm / QR</div>
+              </div>
+            </div>
+
+            <div class="payment-option-card" data-method="CARD" onclick="selectPaymentMethod('CARD')">
+              <span style="font-size:1.3rem;">💳</span>
+              <div>
+                <div class="payment-option-name">Credit / Debit Card</div>
+                <div class="payment-option-sub">Visa, Mastercard, RuPay</div>
+              </div>
+            </div>
+
+            <div class="payment-option-card" data-method="COD" onclick="selectPaymentMethod('COD')">
+              <span style="font-size:1.3rem;">💵</span>
+              <div>
+                <div class="payment-option-name">Cash on Delivery</div>
+                <div class="payment-option-sub">Pay upon doorstep arrival</div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-checkout" onclick="confirmAndPlaceOrder()">Place Order & Pay</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Live Order Tracker -->
+      <div id="trackingStep" style="display:none;">
+        <div class="modal-header">
+          <h3 class="modal-title">Live Order Tracker</h3>
+          <button class="btn-close-cart" onclick="closeOrderModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="tracker-header">
+            <div>
+              <div class="tracker-order-id" id="trackerOrderId">Order #ORD-1092</div>
+              <div class="tracker-timestamp" id="trackerTime">Placed just now</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:0.8rem; color:var(--text-muted);">From Kitchen</div>
+              <div style="font-weight:700; color:var(--text-main);" id="trackerRestaurantName">Rustic Oven Co.</div>
+            </div>
+          </div>
+
+          <!-- Order Status Stepper -->
+          <div class="order-stepper">
+            <div class="step-node active" id="stepNode_PLACED">
+              <div class="step-dot">1</div>
+              <div class="step-title">Order Placed</div>
+              <div class="step-desc">Your order has been received by the platform.</div>
+            </div>
+            <div class="step-node" id="stepNode_CONFIRMED">
+              <div class="step-dot">2</div>
+              <div class="step-title">Kitchen Accepted</div>
+              <div class="step-desc">The restaurant accepted and is allocating fresh ingredients.</div>
+            </div>
+            <div class="step-node" id="stepNode_PREPARING">
+              <div class="step-dot">3</div>
+              <div class="step-title">Cooking & Packaging</div>
+              <div class="step-desc">Chefs are handcrafting your meal fresh.</div>
+            </div>
+            <div class="step-node" id="stepNode_OUT_FOR_DELIVERY">
+              <div class="step-dot">4</div>
+              <div class="step-title">Out for Delivery</div>
+              <div class="step-desc">Delivery partner picked up and is en route.</div>
+            </div>
+            <div class="step-node" id="stepNode_DELIVERED">
+              <div class="step-dot">5</div>
+              <div class="step-title">Delivered</div>
+              <div class="step-desc">Arrived safely at your doorstep. Enjoy your meal!</div>
+            </div>
+          </div>
+
+          <!-- Assigned Delivery Partner Card -->
+          <div class="delivery-partner-badge">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div class="partner-avatar">🛵</div>
+              <div>
+                <div style="font-weight:700; font-size:0.92rem;" id="trackerPartnerName">Marcus Vance</div>
+                <div style="font-size:0.8rem; color:var(--text-muted);" id="trackerPartnerVehicle">TVS Jupiter • KA-04-E-4921</div>
+              </div>
+            </div>
+            <span class="status-pill open">Assigned Rider</span>
+          </div>
+
+          <!-- Real Operational Controls -->
+          <div class="sim-controls">
+            <button class="btn-sim-action" id="btnSimAdvance" onclick="advanceOrderStatusSimulation()">
+              Advance Order Status
+            </button>
+            <button class="btn-sim-action btn-sim-cancel" onclick="cancelCurrentOrder()">
+              Cancel Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Role Inspection & Operational Dashboard Modal -->
+  <div class="modal-backdrop" id="roleOverviewModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="roleModalTitle">Role Dashboard</h3>
+        <button class="btn-close-cart" onclick="closeRoleOverview()">&times;</button>
+      </div>
+      <div class="modal-body" id="roleOverviewContent">
+        <!-- Rendered dynamically by app.js with real actions & stats -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimal Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>
+        <div class="footer-brand">SAVOR Food Platform</div>
+        <p class="footer-note">Handcrafted cuisine &bull; Fast local delivery across Indiranagar, Koramangala & Central Bengaluru</p>
+      </div>
+      <div style="font-size:0.82rem; color:var(--text-secondary); text-align:right;">
+        <span>Free doorstep delivery on orders above ₹499 &bull; 100% contactless payment</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
