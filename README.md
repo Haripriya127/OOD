@@ -1,4 +1,15 @@
 # Online Food Ordering System
+## 👤 Student & Academic Details
+
+- **Student Name:** S Haripriya
+- **USN:** 1MP24CG039
+- **Semester:** 5th Semester
+- **Department:** Department of Computer Science and Design
+- **Institution:** BGS College of Engineering and Technology (BGSCET)
+- **Course / Lab:** BCGL504 Object-Oriented Design Patterns Lab
+- **Event:** PatternXthon
+- **Problem Statement:** ONLINE FOOD ORDERING SYSTEM
+#
 
 An Object-Oriented Design (OOD) project: a minimal, responsive online food ordering and delivery web application built directly from a **UML class diagram** (StarUML).
 
