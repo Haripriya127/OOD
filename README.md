@@ -84,6 +84,27 @@ An interactive **UML Class Details** page is directly accessible via a floating 
 
 ---
 
+## GoF Design Patterns Implementation
+
+The patterns below are mapped directly from the classes, methods and relationships in the UML class diagram.
+
+| Pattern | Category | Classes | Role in Online Food Ordering System |
+|---|---|---|---|
+| **Factory Method** | Creational | `Cart`, `Customer`, `Order`, `OrderItem` | `Cart.checkout(): Order` and `Customer.placeOrder(): Order` build a fully formed `Order` from the cart contents. Each `CartItem` is turned into an `OrderItem` with a price snapshot, so the caller never constructs orders by hand. |
+| **Facade** | Structural | `Customer`, `Cart`, `Order`, `Payment`, `Coupon` | `Customer.placeOrder()` and `Cart.checkout()` give one simple entry point. Behind it they coordinate subtotal calculation, coupon validation, order creation and payment processing. |
+| **State** | Behavioral | `Order`, `OrderStatus` | `Order.updateStatus()` moves the order through `PLACED → CONFIRMED → PREPARING → OUT_FOR_DELIVERY → DELIVERED`, or to `CANCELLED`. Behaviour such as whether `cancelOrder()` is allowed depends on the current status. |
+| **Strategy** | Behavioral | `Payment`, `PaymentMethod`, `Coupon` | `Payment.processPayment()` is chosen at runtime from `PaymentMethod` (`UPI`, `CARD`, `WALLET`, `COD`). `Coupon.apply(amount)` is a swappable discount rule applied to the order total. |
+| **Observer** | Behavioral | `Order`, `Customer`, `DeliveryPartner` | When `DeliveryPartner.updateDeliveryStatus()` or `Order.updateStatus()` runs, the status change is pushed to the `Customer`, so `trackOrder()` always shows the latest stage. |
+
+### Notes
+
+- **Factory Method** and **Facade** come from `Cart.checkout()` and `Customer.placeOrder()` returning an `Order`.
+- **State** and **Strategy** are suggested by the `OrderStatus` and `PaymentMethod` enumerations linked to `Order` and `Payment`.
+- **Observer** comes from the tracking and status-update methods shared between `Customer` and `DeliveryPartner`.
+- Inheritance (`Customer`, `Admin`, `DeliveryPartner` extending `User`) and composition/aggregation are OOP relationships, not GoF patterns, so they are listed separately under *OOP Concepts Demonstrated*.
+
+---
+
 ## Getting Started
 
 ### Prerequisites
